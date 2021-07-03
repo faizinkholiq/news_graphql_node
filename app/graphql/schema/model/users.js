@@ -1,7 +1,7 @@
 const { GraphQLObjectType, GraphQLInt, GraphQLString } = require("graphql");
 
-const newsType = new GraphQLObjectType({
-    name: "News",
+const UsersType = new GraphQLObjectType({
+    name: "Users",
     fields: () => ({
         id: { type: GraphQLInt },
         name: { type: GraphQLString },
@@ -11,4 +11,4 @@ const newsType = new GraphQLObjectType({
     }),
 });
 
-module.exports = newsType;
+module.exports = UsersType;
