@@ -34,10 +34,54 @@ const Mutation = new GraphQLObjectType({
                 address: { type: GraphQLString },
                 phone: { type: GraphQLString },
             },
-            resolve(parent, args) {
-                return args;
+            async resolve(parent, args) {
+                try { 
+                    let id = await knex("users").insert(args);
+                    args["id"] = id[0];
+                    return args;
+                }catch(e){
+                    console.log(e);
+                }
             }
-        }
+        },
+        updateUser: {
+            type: UsersType,
+            args: {
+                id: { type: GraphQLInt },
+                name: { type: GraphQLString },
+                email: { type: GraphQLString },
+                address: { type: GraphQLString },
+                phone: { type: GraphQLString },
+            },
+            async resolve(parent, args) {
+                try {                   
+                    await knex("users")
+                    .where('id', args.id)
+                    .update(args);
+                    
+                    let detail = await knex('users').where('id', args.id)
+                    return detail[0];
+                }catch(e){
+                    console.log(e);
+                }
+            }
+        },
+        deleteUser: {
+            type: UsersType,
+            args: {
+                id: { type: GraphQLInt },
+            },
+            async resolve(parent, args) {
+                try {                   
+                    let detail = await knex('users').where('id', args.id);
+                    await knex('users').where('id', args.id).del();
+                    
+                    return detail[0];
+                }catch(e){
+                    console.log(e);
+                }
+            } 
+        },
     }
 });
 
