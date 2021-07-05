@@ -12,7 +12,7 @@ const resolvers = {
         },
         user: (parent, args, context, info) => {
             try {
-                return knex("users").where('id', args.id);
+                return knex("users").where('id', args.id).first();
             }catch(e){
                 console.log(e);
             }
@@ -21,7 +21,6 @@ const resolvers = {
     Mutation: {
         createUser: async (root, { input }, context, info) => {
             try { 
-                console.log(input);
                 let id = await knex("users").insert(input);
                 input["id"] = id[0];
 
@@ -32,7 +31,6 @@ const resolvers = {
         },
         updateUser: async (root, { input }, context, info) => {
             try {                  
-                console.log(input);
                 await knex("users")
                 .where('id', input.id)
                 .update(input);
@@ -45,7 +43,6 @@ const resolvers = {
         },
         deleteUser: async (root, { id }, context, info) => {
             try {
-                console.log(id);
                 let detail = await knex('users').where('id', id);
                 await knex('users').where('id', id).del();
                 

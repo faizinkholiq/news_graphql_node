@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express();
-const PORT = 6969;
+const PORT = process.env.PORT;
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./src/schema/index");
 const cors = require("cors");
@@ -16,5 +16,5 @@ app.use(
 );
 
 app.listen(PORT, ()=>{
-    console.log("Server running")
+    console.log("🚀 Server ready at localhost:"+PORT)
 });
